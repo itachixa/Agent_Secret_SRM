@@ -1,0 +1,33 @@
+.array {
+    min-width: 100%;
+    max-width: 100%;
+}
+
+img {
+    height: 100%;
+    width: 100%;
+}
+
+.menu {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(0, 0, 0);
+    color: beige;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: larger;
+    position: relative;
+}
+
+.menu a {
+    text-decoration: none;
+    color: white;
+}
+
+.menu a:hover {
+    color: beige;
+    font-size: xx-large;
+    text-decoration: underline;
+}
