@@ -5,6 +5,7 @@ body {
     margin: 20px;
     background-color: #f4f4f4;
 }
+/* Barre de menu */
 .menu{
     list-style-type: none;
     display: flex;    
@@ -16,16 +17,33 @@ body {
     font-family: 'Times New Roman', Times, serif;
     font-size: larger;
     position: relative;
+    border-radius: 20%;
 }
+/* enlever le soulignement naturel des liens et changer la couleur*/
 .menu  a{
     text-decoration: none;
     color: white;
 }
+/* le menu au survol */
 .menu a:hover{
     color: beige;
     font-size: xx-large;
     text-decoration: underline;
 }
+
 .comment_form{
     margin-top: 5%;
+}
+
+.comment_form textarea{
+    min-height: 50px;
+    min-width: 300px;
+}
+table {
+    margin-left: 25%;
+    margin-top: 10%;
+    max-width: 25%;
+    max-height: 20%;
+    border-style: double;
+    box-shadow: 50%;
 }

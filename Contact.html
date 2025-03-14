@@ -14,12 +14,47 @@
         <li> Contactez-nous</li>
     </nav>
     <form action="" method="post" class="comment_form">
-        <label for="pseudo">Pseudo: </label>
-        <input type="text" id="pseudo" name="pseudo"><br>
-        <label for="comment">Commentaires</label>
-        <textarea name="comment" id="comment" placeholder="Entrer un commentaire"></textarea><br>
-        <button type="submit">Envoyer le commentaire</button>
-        <button type="reset">Annuler </button>
+        <table>
+            <tr>
+                <td>
+                    <label for="pseudo">Name: </label>
+                </td>
+                <td>
+                    <input type="text" id="pseudo" name="pseudo"><br>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="comment">Comment</label>
+                </td>
+                <td>
+                    <textarea name="comment" id="comment" placeholder="Type your comment"></textarea><br>
+                </td>
+            </tr>
+            <tr>
+                <td></td> 
+                <td rowspan="2">
+                    <button type="reset">Cancel </button>
+                    <button type="submit">Send comment</button> 
+                </td>
+            </tr>
+        </table>
     </form>
+
+    <h2>Contact Us Via </h2>
+    <table>
+        <tr>
+            <td>
+                <figure> <img src="github.png" alt=""></figure>
+            </td>
+            <td>
+                <figure><img src="whatsapp.png" alt=""></figure>
+            </td>
+            <td>
+                <figure><img src="insta.jpeg" alt=""></figure>
+            </td>
+        </tr>
+    </table>
+    
 </body>
 </html>
