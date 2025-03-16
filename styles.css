@@ -46,20 +46,17 @@ p {
     position: relative;
     height: 20%;
     align-items: center; 
-
-
 }
 
 .menu a {
     text-decoration: none;
     color: white;
-   
 }
 
 
 .menu a:hover {
     color: beige;
-    font-size: xx-large;
+    font-size: x-large;
     text-decoration: underline;
 }
 
