@@ -30,6 +30,11 @@ body {
     font-size: xx-large;
     text-decoration: underline;
 }
+.navimg {
+    height: 50px;
+    width: auto;
+}
+
 
 .comment_form{
     margin-top: 5%;

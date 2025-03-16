@@ -35,25 +35,37 @@ p {
 .menu {
     list-style-type: none;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     background-color: rgb(0, 0, 0);
     color: beige;
+    padding: 20px;
     padding-top: 1%;
     padding-bottom: 1%;
     font-family: 'Times New Roman', Times, serif;
     font-size: larger;
     position: relative;
+    height: 20%;
+    align-items: center; 
+
+
 }
 
 .menu a {
     text-decoration: none;
     color: white;
+   
 }
+
 
 .menu a:hover {
     color: beige;
     font-size: xx-large;
     text-decoration: underline;
+}
+
+.navimg {
+    height: 50px;
+    width: auto;
 }
 
 
