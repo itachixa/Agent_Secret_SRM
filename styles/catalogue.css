@@ -76,12 +76,26 @@ img {
     width: 100%;
     height: auto;
     max-height: 300px; /* Ajuste la hauteur */
+    max-width: 30%;
     object-fit: cover;
 }
 
-.slide p {
+.slide h2 {
     background: rgba(0, 0, 0, 0.7);
     color: white;
     padding: 10px;
     margin-top: -5px;
+}
+.activity{
+    margin-top: 28%;
+}
+.desc2{
+    min-width: 100%;
+    padding-left: 2%;
+    padding-right: 5%;
+}
+.desc3{
+    min-width: 100%;
+    padding-left: 4%;
+    padding-right: 6%;
 }
