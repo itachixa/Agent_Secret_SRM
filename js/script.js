@@ -18,7 +18,7 @@ function nextSlide() {
     if (index >= totalSlides) {
         index = 0;
     }
-    sliderWrapper.style.transform = `translateX(${-index * 34}%)`;
+    sliderWrapper.style.transform = `translateX(${-index * 28}%)`;
 }
 
 

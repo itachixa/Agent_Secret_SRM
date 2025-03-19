@@ -1,3 +1,4 @@
 {
-    "liveServer.settings.multiRootWorkspaceName": "Agent_Secret_SRM"
+    "liveServer.settings.multiRootWorkspaceName": "Agent_Secret_SRM",
+    "liveServer.settings.port": 5501
 }
