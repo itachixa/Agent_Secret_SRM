@@ -48,9 +48,10 @@ body {
     min-width: 70%;
 }
 .new_comment{
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 200%;
+    margin-right: 100%;
     margin-top: 10%;
+    margin-bottom: 20%;
     max-width: 25%;
     max-height: 20%;
     border-style: double;
