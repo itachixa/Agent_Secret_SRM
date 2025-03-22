@@ -83,3 +83,39 @@ footer{
 .hover-rotate:hover img {
     transform: scale(1.3) rotate(5deg);
   }
+@media (max-width: 400px){
+    h1{
+        font-size: medium;
+    }
+    p{
+        font-size: smaller;
+    }
+    .menu{
+        font-size: small;
+    }
+    .navimg{
+        height: 20px;
+    }
+    .new_comment{
+        margin-left: 35px;
+    }
+    .down_icon{
+        margin-left: 10px;
+        width: 400px;
+    }
+    .down_icon td{
+        height: 45px;
+        width: 100px;
+    }
+    .down_icon img{
+        height: 70%;
+        width: 70px;
+    }
+    .down_icon figure{
+        width: 40px;
+        margin-left: 1px;
+    }
+    h2{
+        font-size: medium;
+    }
+}
