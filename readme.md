@@ -1,6 +1,6 @@
 ## Messager with my friend 
 
-### friend-message
+### Agent-Secret
 <a href="agent-secret-srm.vercel.app" target="_blank">
     <img src="img/readme.png" alt="Agent_secret">
 </a>
