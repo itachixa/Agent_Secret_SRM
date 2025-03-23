@@ -1,0 +1,28 @@
+{
+  "name": "agent_secret_srm",
+  "version": "1.0.0",
+  "description": "### Agent-Secret <a href=\"agent-secret-srm.vercel.app\" target=\"_blank\">     <img src=\"img/readme.png\" alt=\"Agent_secret\"> </a>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itachixa/Agent_Secret_SRM.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/itachixa/Agent_Secret_SRM/issues"
+  },
+  "homepage": "https://github.com/itachixa/Agent_Secret_SRM#readme",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "pg": "^8.14.1"
+  }
+}

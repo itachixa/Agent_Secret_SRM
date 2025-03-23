@@ -1,80 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/contact.css">
     <title>Contactez-Nous</title>
 </head>
+
 <body>
-    <h1>Presentation of Togolese Students at SRM (Secret Agent)</h1>    
+    <h1>Presentation of Togolese Students at SRM (Secret Agent)</h1>
     <nav class="menu fade-in">
         <img src="img/Togo.png" alt="" class="navimg">
-        <li><a href="index.html" >Acceuil</a> </li>
+        <li><a href="index.html">Acceuil</a> </li>
         <li><a href="catalogue.html">Catalogue</a></li>
-        <li><a href="Contact.html"class="active">Contactez-nous</a></li>
+        <li><a href="Contact.html" class="active">Contactez-nous</a></li>
         <img src="img/SRM.png" alt="" class="navimg">
-       
+
     </nav>
     <form action="" method="post" class="comment_form">
         <table>
+            <tr>
                 <td>
                     <table class="new_comment">
                         <tr>
-                            <td>
-                                <label for="pseudo">Name: </label>
-                            </td>
-                            <td>
-                                <input type="text" id="pseudo" name="pseudo"><br>
-                            </td>
+                            <td><label for="pseudo">Name: </label></td>
+                            <td><input type="text" id="pseudo" name="pseudo" required><br></td>
                         </tr>
                         <tr>
-                            <td>
-                                <label for="comment">Comment</label>
-                            </td>
-                            <td>
-                                <textarea name="comment" id="comment" placeholder="Type your comment"></textarea><br>
-                            </td>
+                            <td><label for="comment">Comment:</label></td>
+                            <td><textarea name="comment" id="comment" placeholder="Type your comment" required></textarea><br></td>
                         </tr>
                         <tr>
-                            <td></td> 
-                            <td rowspan="2">
-                                <button type="reset">Cancel </button>
-                                <button type="submit">Send comment</button> 
+                            <td></td>
+                            <td>
+                                <button type="reset">Cancel</button>
+                                <button type="submit">Send comment</button>
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
-
         </table>
-        
-        
-        
     </form>
-    <footer>
-    <table class="down_icon">
-        <tr>
-            <td colspan="4">
-                <h2>Contact Us Via </h2>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <figure class="hover-rotate"><a href="mailto:maekouass12@gmail.com"><img src="img/mail.png" alt="Email"></a> </figure>
-                
-            </td>
-            <td>
-                <figure class="hover-rotate"> <a href="https://github.com/itachixa/Agent_Secret_SRM " target="_blank"><img src="img/github.png" alt="GitHub"></a></figure>
-            </td>
-            <td>
-                <figure class="hover-rotate"><a href="http://wa.me/22879400024" target="_blank"><img src="img/whatsapp.png" alt="whatsApp"></a> </figure>
-            </td>
-            <td>
-                <figure class="hover-rotate"><a href="https://www.instagram.com/sachristian12?igsh=MWxvZ3pqeHNzNmV3Nw==" target="_blank"><img src="img/insta.jpeg" alt="Instagram"></a> </figure>
-            </td>
-        </tr>
-    </table>
     
+    <p id="message" style="color: green;"></p> <!-- Message de confirmation -->
+    
+    <script src="js/form.js"></script>
+    
+    <footer>
+        <table class="down_icon">
+            <tr>
+                <td colspan="4">
+                    <h2>Contact Us Via </h2>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <figure class="hover-rotate"><a href="mailto:maekouass12@gmail.com"><img src="img/mail.png"
+                                alt="Email"></a> </figure>
+
+                </td>
+                <td>
+                    <figure class="hover-rotate"> <a href="https://github.com/itachixa/Agent_Secret_SRM "
+                            target="_blank"><img src="img/github.png" alt="GitHub"></a></figure>
+                </td>
+                <td>
+                    <figure class="hover-rotate"><a href="http://wa.me/22879400024" target="_blank"><img
+                                src="img/whatsapp.png" alt="whatsApp"></a> </figure>
+                </td>
+                <td>
+                    <figure class="hover-rotate"><a
+                            href="https://www.instagram.com/sachristian12?igsh=MWxvZ3pqeHNzNmV3Nw=="
+                            target="_blank"><img src="img/insta.jpeg" alt="Instagram"></a> </figure>
+                </td>
+            </tr>
+        </table>
+       
+ <script src="js/form.js"></script>
 </body>
+
 </html>
