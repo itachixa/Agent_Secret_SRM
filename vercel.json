@@ -24,7 +24,7 @@
       "dest": "/catalogue.html"
     },
     {
-      "src": "/Contact",
+      "src": "/contact",
       "dest": "/Contact.html"
     },
     {
@@ -37,6 +37,6 @@
     }
   ],
   "env": {
-    "DATABASE_URL": "postgresql://Agent_secret_owner:npg_jCsokwGO3yi6@ep-twilight-art-a5j5slr2-pooler.us-east-2.aws.neon.tech/Agent_secret?sslmode=require"
+    "DATABASE_URL": "postgresql://neondb_owner:JXTGM9RE1BjH@ep-late-bread-a29sphep-pooler.eu-central-1.aws.neon.tech/utilisateursdb?sslmode=require"
   }
 }
