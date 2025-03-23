@@ -1,10 +1,12 @@
 require("dotenv").config();
+const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const { neon } = require("@neondatabase/serverless");
 
 const sql = neon(process.env.DATABASE_URL);
 
+// Test de connexion à la base de données au démarrage
 (async () => {
     try {
         const result = await sql`SELECT version()`;
@@ -16,23 +18,31 @@ const sql = neon(process.env.DATABASE_URL);
 })();
 
 const requestHandler = async (req, res) => {
-    if (req.method === "POST" && req.url === "/api/comments") {
+    if (req.method === "POST" && req.url === "/") {
         let body = "";
-        req.on("data", (chunk) => (body += chunk.toString()));
+
+        req.on("data", (chunk) => {
+            body += chunk.toString();
+        });
+
         req.on("end", async () => {
             try {
                 const { pseudo, comment } = JSON.parse(body);
+
+                // Insertion du commentaire dans la base de données avec SQL
                 await sql`INSERT INTO comments (pseudo, comment) VALUES (${pseudo}, ${comment})`;
+
                 res.writeHead(200, { "Content-Type": "text/plain" });
                 res.end("Commentaire enregistré avec succès !");
             } catch (error) {
-                console.error("Erreur d'enregistrement :", error);
+                console.error("Erreur lors de l'enregistrement :", error);
                 res.writeHead(500, { "Content-Type": "text/plain" });
                 res.end("Erreur lors de l'enregistrement du commentaire.");
             }
         });
     } else {
-        const filePath = path.join(process.cwd(), req.url === "/" ? "index.html" : req.url);
+        // Gestion des fichiers statiques (HTML, CSS, JS)
+        const filePath = path.join(__dirname, req.url === "/" ? "index.html" : req.url);
         const ext = path.extname(filePath);
         let contentType = "text/html";
 
@@ -63,5 +73,6 @@ const requestHandler = async (req, res) => {
     }
 };
 
-// Exportation pour Vercel
-module.exports = requestHandler;
+http.createServer(requestHandler).listen(agent-secret-srm.vercel.app, () => {
+    console.log("Serveur démarré sur https://agent-secret-srm.vercel.app/");
+});
