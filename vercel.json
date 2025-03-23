@@ -1,0 +1,43 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "app.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/comments",
+        "dest": "app.js"
+      },
+      {
+        "src": "/js/(.*)",
+        "dest": "/js/$1"
+      },
+      {
+        "src": "/styles/(.*)",
+        "dest": "/styles/$1"
+      },
+      {
+        "src": "/img/(.*)",
+        "dest": "/img/$1"
+      },
+      {
+        "src": "/catalogue",
+        "dest": "/catalogue.html"
+      },
+      {
+        "src": "/contact",
+        "dest": "/Contact.html"
+      },
+      {
+        "src": "/",
+        "dest": "/index.html"
+      }
+    ],
+    "env": {
+      "DATABASE_URL": "postgresql://neondb_owner:JXTGM9RE1BjH@ep-late-bread-a29sphep-pooler.eu-central-1.aws.neon.tech/utilisateursdb?sslmode=require"
+    }
+  }
+  
