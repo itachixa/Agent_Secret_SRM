@@ -35,8 +35,6 @@
       "src": "/api/comments",
       "dest": "app.js"
     }
-  ],
-  "env": {
-    "DATABASE_URL": "postgresql://neondb_owner:JXTGM9RE1BjH@ep-late-bread-a29sphep-pooler.eu-central-1.aws.neon.tech/utilisateursdb?sslmode=require"
-  }
+  ]
+  
 }
