@@ -3,7 +3,7 @@ async function sendComment() {
     const comment = document.getElementById("comment").value;
 
     try {
-        const response = await fetch("http://localhost:3000/", {
+        const response = await fetch("https://agent-secret-srm.vercel.app/api/comments", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
