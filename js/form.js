@@ -1,49 +1,37 @@
-document.addEventListener("DOMContentLoaded", loadComments);
+window.onload = function() {
+    displayComments();
+};
 
 function sendComment() {
     const pseudo = document.getElementById("pseudo").value;
     const comment = document.getElementById("comment").value;
 
-    if (pseudo && comment) {
-        const newComment = { pseudo, comment };
-        saveComment(newComment);
-
-        // Réinitialiser les champs
-        document.getElementById("pseudo").value = "";
-        document.getElementById("comment").value = "";
-    } else {
-        alert("Veuillez remplir les deux champs.");
+    if (!pseudo || !comment) {
+        alert("Veuillez remplir tous les champs.");
+        return;
     }
+
+    const newComment = { pseudo, comment };
+    saveComment(newComment);
+
+    // Vider les champs
+    document.getElementById("pseudo").value = "";
+    document.getElementById("comment").value = "";
+
+    displayComments();
 }
 
 function saveComment(comment) {
-    // Envoi du commentaire au serveur
-    fetch("https://tonsite.com/save_comments.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(comment)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Erreur lors de l'enregistrement des commentaires.");
-        }
-        displayComments();
-    })
-    .catch(error => console.error(error));
+    let comments = JSON.parse(localStorage.getItem("comments")) || [];
+    comments.push(comment);
+    localStorage.setItem("comments", JSON.stringify(comments));
 }
 
-function loadComments() {
-    fetch("https://tonsite.com/comments.json")
-        .then(response => response.json())
-        .then(comments => displayComments(comments))
-        .catch(error => console.error("Erreur lors du chargement des commentaires :", error));
-}
-
-function displayComments(comments) {
+function displayComments() {
     const commentsList = document.getElementById("commentsList");
     commentsList.innerHTML = "";
+
+    let comments = JSON.parse(localStorage.getItem("comments")) || [];
 
     comments.forEach(comment => {
         const li = document.createElement("li");
