@@ -18,6 +18,17 @@ const sql = neon(process.env.DATABASE_URL);
 })();
 
 const requestHandler = async (req, res) => {
+    // Configuration des en-têtes CORS
+    res.setHeader("Access-Control-Allow-Origin", "https://agent-secret-srm.vercel.app");
+    res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+    if (req.method === "OPTIONS") {
+        res.writeHead(204);
+        res.end();
+        return;
+    }
+
     if (req.method === "POST" && req.url === "/") {
         let body = "";
 
@@ -29,7 +40,7 @@ const requestHandler = async (req, res) => {
             try {
                 const { pseudo, comment } = JSON.parse(body);
 
-                // Insertion du commentaire dans la base de données avec SQL
+                // Insertion du commentaire dans la base de données
                 await sql`INSERT INTO comments (pseudo, comment) VALUES (${pseudo}, ${comment})`;
 
                 res.writeHead(200, { "Content-Type": "text/plain" });
@@ -73,6 +84,7 @@ const requestHandler = async (req, res) => {
     }
 };
 
+// Lancement du serveur sur le port 3000
 http.createServer(requestHandler).listen(3000, () => {
     console.log("Serveur démarré sur http://localhost:3000");
 });
