@@ -18,13 +18,13 @@
         <img src="img/SRM.png" alt="" class="navimg">
 
     </nav>
-    <form action="" method="post" class="comment_form">
+    <form action="/" method="post" class="comment_form" id="commentForm">
         <table>
             <tr>
                 <td>
                     <table class="new_comment">
                         <tr>
-                            <td><label for="pseudo">Name: </label></td>
+                            <td><label for="pseudo">Name:</label></td>
                             <td><input type="text" id="pseudo" name="pseudo" required><br></td>
                         </tr>
                         <tr>
@@ -35,7 +35,7 @@
                             <td></td>
                             <td>
                                 <button type="reset">Cancel</button>
-                                <button type="submit">Send comment</button>
+                                <button type="button" onclick="sendComment()">Send comment</button>
                             </td>
                         </tr>
                     </table>
@@ -43,6 +43,7 @@
             </tr>
         </table>
     </form>
+    
     
     <p id="message" style="color: green;"></p> <!-- Message de confirmation -->
     
