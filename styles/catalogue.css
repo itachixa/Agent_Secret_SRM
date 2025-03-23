@@ -54,12 +54,10 @@ img {
     height: 51%;
     overflow: hidden;
     border: 3px solid #000;
-    position:absolute;
+    position:relative;
     align-items: center; 
     margin-left: 10%;
     margin-right: 10%;
-    
-
 }
 
 .slider-wrapper {
@@ -93,7 +91,7 @@ img {
     margin-top: 3%;
 }
 .activity{
-    margin-top: 28%;
+    margin-top: 5%;
 }
 .desc2{
     min-width: 100%;
@@ -120,9 +118,6 @@ button {
     color: white;
     text-decoration: none;
 }
-span{
-    color: black;
-}
 .img-org{
     max-width:50%;
     min-width: 50%;
@@ -134,4 +129,37 @@ span{
     margin-top: 10%;
     border: solid black;
 
+}
+@media (max-width:400px){
+    
+    p{
+        font-size: smaller;
+    }
+    .menu{
+        font-size: small;
+    }
+    .navimg{
+        height: 20px;
+    }
+    .slider-wrapper{
+        gap: 70px;
+    }
+    .slider{
+        position:relative;
+        min-height: 200px;
+        max-height: 200px;
+    }
+    .slide h2{
+        padding: 1px;
+        height: 25px;
+        width: 180px;
+    }
+    .slide{
+        margin-left: 2px;
+        margin-right: 1px;
+    }
+    button{
+        height: 50px;
+        width: 140px;
+    }
 }
