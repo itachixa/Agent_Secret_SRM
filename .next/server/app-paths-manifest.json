@@ -1,0 +1,7 @@
+{
+  "/mentorship/page": "app/mentorship/page.js",
+  "/guide/page": "app/guide/page.js",
+  "/events/page": "app/events/page.js",
+  "/messages/page": "app/messages/page.js",
+  "/profile/edit/page": "app/profile/edit/page.js"
+}
