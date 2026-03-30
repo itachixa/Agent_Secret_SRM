@@ -56,13 +56,20 @@ export function Navbar() {
   return (
     <>
       {/* Desktop Navbar */}
-      <nav className="hidden lg:flex fixed top-0 left-0 right-0 z-50 h-16 bg-togo-dark/90 backdrop-blur-xl border-b border-white/[0.06]">
+      <nav className="hidden lg:flex fixed top-0 left-0 right-0 z-50 flex-col">
+        <div className="h-[3px] kente-border-thin" />
+        <div className="h-16 bg-togo-dark/90 backdrop-blur-xl border-b border-white/[0.06]">
         <div className="w-full max-w-7xl mx-auto px-6 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-togo-green via-togo-yellow to-togo-red flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-togo-green/20 group-hover:scale-105 transition-transform duration-200">
-              TG
+            <div className="relative flex items-center">
+              <img src="/img/Togo.png" alt="Togo" className="w-7 h-[18px] rounded-sm shadow-md flag-wave" />
+              <div className="mx-1.5 text-togo-yellow text-xs font-bold opacity-60">→</div>
+              <img src="/img/SRM.png" alt="SRM" className="w-7 h-7 rounded-lg shadow-md object-contain" />
             </div>
-            <span className="font-display font-bold text-white text-lg tracking-tight">TogoIndia</span>
+            <div className="flex flex-col">
+              <span className="font-display font-bold text-white text-lg tracking-tight leading-none">TogoIndia</span>
+              <span className="text-[9px] text-gray-500 leading-none mt-0.5">SRM Community</span>
+            </div>
           </Link>
 
           <div className="flex items-center gap-0.5">
@@ -147,14 +154,17 @@ export function Navbar() {
             </div>
           </div>
         </div>
+        </div>
       </nav>
 
       {/* Mobile Top Bar */}
       <nav className="lg:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-togo-dark/90 backdrop-blur-xl border-b border-white/[0.06]">
         <div className="h-full px-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-togo-green via-togo-yellow to-togo-red flex items-center justify-center text-white font-bold text-xs shadow-lg">
-              TG
+          <Link href="/" className="flex items-center gap-2">
+            <div className="relative flex items-center">
+              <img src="/img/Togo.png" alt="Togo" className="w-6 h-4 rounded-sm shadow-md" />
+              <div className="mx-1 text-togo-yellow text-[10px] font-bold opacity-60">→</div>
+              <img src="/img/SRM.png" alt="SRM" className="w-6 h-6 rounded-md shadow-md object-contain" />
             </div>
             <span className="font-display font-bold text-white tracking-tight">TogoIndia</span>
           </Link>

@@ -318,3 +318,150 @@
   0% { transform: scale(1); opacity: 0.4; }
   100% { transform: scale(2.5); opacity: 0; }
 }
+
+@keyframes kenteShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes dash {
+  to { stroke-dashoffset: 0; }
+}
+
+/* African Kente-inspired pattern */
+.kente-border {
+  background: linear-gradient(90deg,
+    #009639 0%, #009639 12.5%,
+    #FFD100 12.5%, #FFD100 25%,
+    #D21034 25%, #D21034 37.5%,
+    #FF9700 37.5%, #FF9700 50%,
+    #009639 50%, #009639 62.5%,
+    #FFD100 62.5%, #FFD100 75%,
+    #D21034 75%, #D21034 87.5%,
+    #FF9700 87.5%, #FF9700 100%
+  );
+  background-size: 200% 100%;
+  animation: kenteShimmer 8s linear infinite;
+}
+
+.kente-border-thin {
+  background: linear-gradient(90deg,
+    #009639 0%, #009639 12.5%,
+    #FFD100 12.5%, #FFD100 25%,
+    #D21034 25%, #D21034 37.5%,
+    #FF9700 37.5%, #FF9700 50%,
+    #009639 50%, #009639 62.5%,
+    #FFD100 62.5%, #FFD100 75%,
+    #D21034 75%, #D21034 87.5%,
+    #FF9700 87.5%, #FF9700 100%
+  );
+  background-size: 200% 100%;
+  animation: kenteShimmer 8s linear infinite;
+}
+
+/* African geometric diamond pattern overlay */
+.african-pattern-overlay {
+  background-image:
+    linear-gradient(45deg, rgba(0,150,57,0.03) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(0,150,57,0.03) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255,209,0,0.02) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255,209,0,0.02) 75%);
+  background-size: 60px 60px;
+  background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
+}
+
+/* Adinkra-inspired circular motif */
+.adinkra-motif {
+  position: relative;
+}
+.adinkra-motif::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: conic-gradient(from 0deg, #009639, #FFD100, #D21034, #FF9700, #009639);
+  opacity: 0.15;
+  z-index: -1;
+  animation: spin 20s linear infinite;
+}
+
+/* Flag wave effect */
+.flag-wave {
+  animation: flagWave 3s ease-in-out infinite;
+  transform-origin: left center;
+}
+@keyframes flagWave {
+  0%, 100% { transform: perspective(400px) rotateY(0deg); }
+  25% { transform: perspective(400px) rotateY(2deg); }
+  75% { transform: perspective(400px) rotateY(-2deg); }
+}
+
+/* Warm African earth tone glow */
+.glow-warm {
+  box-shadow: 0 0 30px rgba(255, 151, 0, 0.12), 0 0 80px rgba(255, 151, 0, 0.04);
+}
+
+/* Tribal chevron background */
+.tribal-chevron-bg {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='30' viewBox='0 0 60 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 15L30 30L0 15Z' fill='none' stroke='rgba(0,150,57,0.04)' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-size: 60px 30px;
+}
+
+/* Mud cloth (Bògòlanfini) inspired pattern */
+.mudcloth-bg {
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(255,209,0,0.03) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, rgba(0,150,57,0.03) 1px, transparent 1px),
+    linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px, 20px 20px, 20px 20px;
+}
+
+/* Woven textile texture */
+.woven-texture {
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 4px,
+      rgba(255,255,255,0.008) 4px,
+      rgba(255,255,255,0.008) 5px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 4px,
+      rgba(255,255,255,0.008) 4px,
+      rgba(255,255,255,0.008) 5px
+    );
+}
+
+/* Flag component styles */
+.flag-togo, .flag-india {
+  width: 40px;
+  height: 27px;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  flex-shrink: 0;
+}
+.flag-togo-sm, .flag-india-sm {
+  width: 24px;
+  height: 16px;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  flex-shrink: 0;
+}
+
+/* African divider */
+.african-divider {
+  height: 3px;
+  background: linear-gradient(90deg,
+    transparent,
+    #009639 15%, #FFD100 35%, #D21034 50%, #FF9700 65%, #009639 85%,
+    transparent
+  );
+  opacity: 0.6;
+}

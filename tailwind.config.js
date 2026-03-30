@@ -35,6 +35,20 @@ module.exports = {
           surface: '#1a1a2e',
           'surface-light': '#242440',
         },
+        india: {
+          saffron: '#FF9933',
+          white: '#FFFFFF',
+          green: '#138808',
+          navy: '#000080',
+        },
+        africa: {
+          terracotta: '#C2452D',
+          ochre: '#CC7722',
+          gold: '#DAA520',
+          bronze: '#CD7F32',
+          earth: '#8B4513',
+          kente: '#FF9700',
+        },
         surface: {
           50: '#fafafa',
           100: '#f4f4f5',

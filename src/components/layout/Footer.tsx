@@ -8,15 +8,29 @@ export function Footer() {
   const { lang } = useApp();
 
   return (
-    <footer className="hidden lg:block bg-togo-darker/80 border-t border-white/[0.04] mt-auto">
-      <div className="max-w-7xl mx-auto px-6 py-14">
+    <footer className="hidden lg:block bg-togo-darker/80 border-t border-white/[0.04] mt-auto relative overflow-hidden">
+      {/* Kente border top */}
+      <div className="h-[3px] kente-border" />
+
+      {/* African pattern background */}
+      <div className="absolute inset-0 tribal-chevron-bg opacity-50 pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto px-6 py-14">
         <div className="grid grid-cols-4 gap-10">
           <div>
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-togo-green via-togo-yellow to-togo-red flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-togo-green/20">
-                TG
+              <div className="relative flex items-center gap-1.5">
+                <img src="/img/Togo.png" alt="Togo" className="w-8 h-5 rounded-sm shadow-md" />
+                <span className="text-togo-yellow text-xs">→</span>
+                <img src="/img/India.svg" alt="Inde" className="w-8 h-5 rounded-sm shadow-md" />
               </div>
-              <span className="font-display font-bold text-white text-lg tracking-tight">TogoIndia</span>
+            </div>
+            <div className="flex items-center gap-3 mb-4">
+              <img src="/img/SRM.png" alt="SRM" className="w-10 h-10 rounded-xl shadow-lg object-contain" />
+              <div>
+                <span className="font-display font-bold text-white text-lg tracking-tight block">TogoIndia</span>
+                <span className="text-[10px] text-gray-500">SRM Community</span>
+              </div>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed mb-5">
               {lang === 'fr'
@@ -84,10 +98,31 @@ export function Footer() {
               <p>{lang === 'fr' ? 'Fondé en 2022' : 'Founded in 2022'}</p>
               <p>{lang === 'fr' ? 'Communauté officielle' : 'Official community'}</p>
             </div>
+
+            {/* Flags showcase */}
+            <div className="mt-6 flex items-center gap-3">
+              <div className="flex flex-col items-center gap-1">
+                <img src="/img/Togo.png" alt="Drapeau du Togo" className="w-10 h-[26px] rounded shadow-md" />
+                <span className="text-[9px] text-gray-500">Togo</span>
+              </div>
+              <span className="text-togo-yellow text-sm">⟷</span>
+              <div className="flex flex-col items-center gap-1">
+                <img src="/img/India.svg" alt="Drapeau de l'Inde" className="w-10 h-[26px] rounded shadow-md" />
+                <span className="text-[9px] text-gray-500">India</span>
+              </div>
+              <span className="text-togo-yellow text-sm">⟷</span>
+              <div className="flex flex-col items-center gap-1">
+                <img src="/img/SRM.png" alt="SRM Logo" className="w-10 h-10 rounded-lg shadow-md object-contain" />
+                <span className="text-[9px] text-gray-500">SRM</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-white/[0.04] flex flex-col sm:flex-row items-center justify-between gap-4">
+        {/* African divider */}
+        <div className="african-divider my-8" />
+
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-500">
             &copy; {new Date().getFullYear()} TogoIndia. {lang === 'fr' ? 'Tous droits réservés.' : 'All rights reserved.'}
           </p>

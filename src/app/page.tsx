@@ -94,11 +94,26 @@ export default function HomePage() {
         <div className="absolute top-40 right-0 w-[400px] h-[400px] bg-togo-yellow/[0.05] rounded-full blur-[120px]" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-togo-red/[0.04] rounded-full blur-[120px]" />
 
-        {/* Grid Pattern Overlay */}
-        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        {/* African Pattern Overlay */}
+        <div className="absolute inset-0 african-pattern-overlay pointer-events-none" />
+        <div className="absolute inset-0 mudcloth-bg pointer-events-none" />
+
+        {/* Kente border top */}
+        <div className="absolute top-0 left-0 right-0 h-1 kente-border" />
 
         <div className="relative page-container pt-20 lg:pt-28 pb-16">
           <div className="max-w-4xl mx-auto text-center">
+            {/* Flags Banner */}
+            <div className="flex items-center justify-center gap-4 mb-8 animate-slide-up">
+              <img src="/img/Togo.png" alt="Drapeau du Togo" className="w-12 h-8 rounded shadow-lg flag-wave" />
+              <div className="flex items-center gap-2">
+                <div className="h-px w-8 bg-gradient-to-r from-transparent to-togo-yellow/50" />
+                <img src="/img/SRM.png" alt="SRM University" className="w-12 h-12 rounded-xl shadow-lg object-contain bg-white/5 p-1" />
+                <div className="h-px w-8 bg-gradient-to-l from-transparent to-india-saffron/50" />
+              </div>
+              <img src="/img/India.svg" alt="Drapeau de l'Inde" className="w-12 h-8 rounded shadow-lg" />
+            </div>
+
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-togo-green/[0.08] border border-togo-green/[0.15] rounded-full text-togo-green text-sm font-medium mb-8 animate-slide-up">
               <Sparkles size={16} className="animate-bounce-subtle" />
@@ -110,7 +125,11 @@ export default function HomePage() {
             <h1 className="text-5xl md:text-6xl lg:text-8xl font-display font-extrabold leading-[1.1] tracking-tight animate-slide-up" style={{ animationDelay: '0.1s' }}>
               <span className="text-white">{t('home.hero.title')}</span>
               <br />
-              <span className="gradient-text text-4xl md:text-5xl lg:text-7xl">{'\u{1F1F8}\u{1F1EC} \u2192 \u{1F1EE}\u{1F1F3}'}</span>
+              <span className="gradient-text text-4xl md:text-5xl lg:text-7xl flex items-center justify-center gap-3 mt-2">
+                <img src="/img/Togo.png" alt="Togo" className="w-10 h-7 md:w-14 md:h-9 lg:w-16 lg:h-10 rounded shadow-md inline-block" />
+                <span className="text-togo-yellow">{'\u2192'}</span>
+                <img src="/img/India.svg" alt="India" className="w-10 h-7 md:w-14 md:h-9 lg:w-16 lg:h-10 rounded shadow-md inline-block" />
+              </span>
             </h1>
 
             {/* Subtitle */}
@@ -152,6 +171,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* African divider */}
+      <div className="african-divider" />
 
       {/* Features Section */}
       <section className="page-container py-20 lg:py-28">
@@ -304,7 +326,8 @@ export default function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section className="page-container py-20">
+      <section className="page-container py-20 relative">
+        <div className="absolute inset-0 mudcloth-bg pointer-events-none opacity-30" />
         <div className="text-center mb-16">
           <span className="inline-flex items-center gap-2 px-3 py-1 bg-togo-yellow/[0.08] border border-togo-yellow/[0.12] rounded-full text-togo-yellow text-xs font-semibold uppercase tracking-wider mb-4">
             <Target size={12} /> {lang === 'fr' ? 'Comment ça marche' : 'How it works'}
@@ -335,13 +358,20 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="page-container py-20">
+      <section className="page-container py-20 relative">
+        <div className="african-divider mb-10" />
         <div className="relative glass-card p-10 lg:p-20 text-center overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-togo-green/[0.06] via-togo-yellow/[0.03] to-togo-red/[0.06]" />
           <div className="absolute top-0 left-1/4 w-80 h-80 bg-togo-green/[0.06] rounded-full blur-[100px]" />
           <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-togo-red/[0.06] rounded-full blur-[100px]" />
 
           <div className="relative">
+            {/* Flags in CTA */}
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <img src="/img/Togo.png" alt="Togo" className="w-10 h-7 rounded shadow-md" />
+              <img src="/img/SRM.png" alt="SRM" className="w-10 h-10 rounded-xl shadow-lg object-contain bg-white/5 p-0.5" />
+              <img src="/img/India.svg" alt="India" className="w-10 h-7 rounded shadow-md" />
+            </div>
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-togo-green/[0.1] border border-togo-green/[0.15] rounded-full text-togo-green text-sm font-medium mb-6">
               <TrendingUp size={16} />
               <span>{lang === 'fr' ? 'Rejoignez les 50+ étudiants' : 'Join 50+ students'}</span>
@@ -363,17 +393,22 @@ export default function HomePage() {
 
       {/* Footer Banner */}
       <section className="page-container pb-12">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 glass-card">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-togo-green via-togo-yellow to-togo-red flex items-center justify-center text-white font-bold shadow-lg">
-              TG
+        <div className="relative flex flex-col sm:flex-row items-center justify-between gap-4 p-6 glass-card overflow-hidden">
+          <div className="absolute inset-0 african-pattern-overlay pointer-events-none opacity-50" />
+          <div className="relative flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <img src="/img/Togo.png" alt="Togo" className="w-10 h-7 rounded shadow-md" />
+              <span className="text-togo-yellow text-lg">⟷</span>
+              <img src="/img/India.svg" alt="India" className="w-10 h-7 rounded shadow-md" />
             </div>
+            <div className="h-10 w-px bg-white/10" />
+            <img src="/img/SRM.png" alt="SRM" className="w-10 h-10 rounded-xl shadow-lg object-contain" />
             <div>
               <p className="font-display font-bold text-white">TogoIndia</p>
               <p className="text-sm text-gray-400">{lang === 'fr' ? 'La communauté togolaise en Inde' : 'The Togolese community in India'}</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="relative flex items-center gap-3">
             <Link href="/auth/register" className="btn-primary text-sm">
               {lang === 'fr' ? 'Rejoindre' : 'Join now'}
             </Link>
