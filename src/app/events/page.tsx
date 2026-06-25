@@ -1,8 +1,7 @@
 'use client';
 
 import { useApp } from '@/lib/context';
-import { events } from '@/data/events';
-import { users } from '@/data/users';
+import { useEvents } from '@/hooks/supabase/useEvents';
 import {
   Calendar, MapPin, Clock, Users,
   CalendarPlus, Check, Sparkles
@@ -23,9 +22,10 @@ export default function EventsPage() {
   const { t, lang } = useApp();
   const [attendingEvents, setAttendingEvents] = useState<Set<string>>(new Set());
   const locale = lang === 'fr' ? fr : enUS;
+  const { data: events, loading, error } = useEvents();
 
-  const upcomingEvents = events.filter((e) => isAfter(new Date(e.date), new Date())).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  const pastEvents = events.filter((e) => !isAfter(new Date(e.date), new Date()));
+  const upcomingEvents = (events || []).filter((e: any) => isAfter(new Date(e.date), new Date()));
+  const pastEvents = (events || []).filter((e: any) => !isAfter(new Date(e.date), new Date()));
 
   const toggleAttend = (eventId: string) => {
     const newSet = new Set(attendingEvents);
@@ -33,6 +33,8 @@ export default function EventsPage() {
     else newSet.add(eventId);
     setAttendingEvents(newSet);
   };
+
+  if (loading) return <div className="page-container max-w-5xl mx-auto"><div className="text-center py-12">Chargement...</div></div>;
 
   return (
     <div className="page-container max-w-5xl mx-auto">
@@ -51,8 +53,7 @@ export default function EventsPage() {
 
       {upcomingEvents.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-12">
-          {upcomingEvents.map((event, i) => {
-            const organizer = users.find((u) => u.id === event.organizer);
+          {upcomingEvents.map((event: any, i: number) => {
             const isAttending = attendingEvents.has(event.id);
 
             return (
@@ -85,63 +86,23 @@ export default function EventsPage() {
                     </span>
                     <span className="flex items-center gap-2.5">
                       <Users size={14} className="text-purple-400" />
-                      {event.attendees.length + (isAttending ? 1 : 0)} {t('events.attendees')}
+                      {event.attendeesCount || 0} {t('events.attendees')}
                     </span>
                   </div>
 
-                  <div className="flex items-center justify-between mt-5 pt-4 border-t border-white/[0.04]">
-                    {organizer && (
-                      <div className="flex items-center gap-2 text-xs text-gray-500">
-                        <img src={organizer.avatar} alt="" className="w-6 h-6 rounded-full ring-1 ring-white/10" />
-                        <span>{t('events.organizer')}: {organizer.name}</span>
-                      </div>
-                    )}
-                    <button
-                      onClick={() => toggleAttend(event.id)}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-                        isAttending
-                          ? 'bg-togo-green/15 text-togo-green border border-togo-green/20'
-                          : 'btn-primary'
-                      }`}
-                    >
-                      {isAttending ? <><Check size={14} /> {t('events.attending')}</> : <><CalendarPlus size={14} /> {t('events.attend')}</>}
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => toggleAttend(event.id)}
+                    className={`mt-5 flex items-center gap-2 btn-outline text-sm ${isAttending ? 'bg-togo-green/15 text-togo-green border-togo-green/20' : ''}`}
+                  >
+                    <Check size={14} /> {isAttending ? t('events.attending') : t('events.attend')}
+                  </button>
                 </div>
               </div>
             );
           })}
         </div>
       ) : (
-        <div className="glass-card p-12 text-center mb-12">
-          <Sparkles size={32} className="mx-auto text-gray-500 mb-4" />
-          <p className="text-gray-400">{lang === 'fr' ? 'Aucun événement à venir' : 'No upcoming events'}</p>
-        </div>
-      )}
-
-      {/* Past Events */}
-      {pastEvents.length > 0 && (
-        <>
-          <div className="flex items-center gap-2 mb-5">
-            <Clock size={20} className="text-gray-400" />
-            <h2 className="text-xl font-display font-bold text-white">{t('events.past')}</h2>
-          </div>
-          <div className="space-y-3">
-            {pastEvents.map((event) => (
-              <div key={event.id} className="glass-card p-5 opacity-60 hover:opacity-80 transition-opacity">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="font-medium text-white">{event.title}</h3>
-                    <p className="text-sm text-gray-500 mt-0.5">
-                      {format(new Date(event.date), 'dd MMM yyyy', { locale })} &middot; {event.location}, {event.city}
-                    </p>
-                  </div>
-                  <span className="text-xs text-gray-500 bg-white/[0.03] px-3 py-1 rounded-full">{event.attendees.length} {t('events.attendees')}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </>
+        <div className="text-center py-8 text-gray-400">{lang === 'fr' ? 'Aucun événement à venir' : 'No upcoming events'}</div>
       )}
     </div>
   );

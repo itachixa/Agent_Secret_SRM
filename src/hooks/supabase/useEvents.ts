@@ -20,7 +20,7 @@ export function useEvents() {
         setData(result.data || []);
         setError(null);
       })
-.catch((err) => {
+      .catch((err) => {
         if (!active) return;
         setError(err.message || 'Erreur Backend');
       })
@@ -33,8 +33,9 @@ export function useEvents() {
     };
   }, []);
 
-const toggleAttendance = async (eventId: string, attending: boolean, status: AttendanceStatus = 'going', userId?: string) => {
-    const result = await toggleEventAttendance(eventId, attending, status, userId);
+  const toggleAttendance = async (eventId: string, attending: boolean, status: AttendanceStatus = 'going', userId?: string) => {
+    if (!userId) return { data: null, error: new Error('User ID required') };
+    const result = await toggleEventAttendance(eventId, userId, status);
     if (result.error) return result;
     const refreshed = await getEvents();
     if (!refreshed.error) setData(refreshed.data || []);

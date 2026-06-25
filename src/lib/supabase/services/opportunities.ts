@@ -1,4 +1,4 @@
-import { api } from '../../api/client';
+import { createServerSupabaseClient } from '../client';
 
 type ApiResult<T> = { data: T | null; error: Error | null };
 
@@ -6,29 +6,26 @@ function toError(error: unknown) {
   return error instanceof Error ? error : new Error(String(error));
 }
 
-function qs(params: Record<string, string | undefined>) {
-  const query = new URLSearchParams();
-  Object.entries(params).forEach(([key, value]) => {
-    if (value) query.set(key, value);
-  });
-  return query.toString();
+export async function getOpportunities(type?: string, status?: string) {
+  const supabase = createServerSupabaseClient();
+  let query = supabase.from('opportunities').select('*');
+  if (type && type !== 'all') query = query.eq('type', type);
+  if (status && status !== 'all') query = query.eq('status', status);
+  const { data, error } = await query.order('created_at', { ascending: false });
+  if (error) return { data: [], error: toError(error) };
+  return { data, error: null };
 }
 
-export async function getOpportunities(type?: string, status?: string): Promise<ApiResult<any[]>> {
-  try {
-    const query = qs({ type, status });
-    const data = await api.get<any[]>(`/api/opportunities${query ? `?${query}` : ''}`);
-    return { data, error: null };
-  } catch (error) {
-    return { data: [], error: toError(error) };
-  }
+export async function getOpportunity(id: string) {
+  const supabase = createServerSupabaseClient();
+  const { data, error } = await supabase.from('opportunities').select('*').eq('id', id).single();
+  if (error) return { data: null, error: toError(error) };
+  return { data, error: null };
 }
 
-export async function createOpportunity(input: Record<string, unknown>, userId?: string): Promise<ApiResult<any>> {
-  try {
-    const data = await api.post<any>('/api/opportunities', input, { userId });
-    return { data, error: null };
-  } catch (error) {
-    return { data: null, error: toError(error) };
-  }
+export async function createOpportunity(input: Record<string, unknown>) {
+  const supabase = createServerSupabaseClient();
+  const { data, error } = await supabase.from('opportunities').insert(input).select().single();
+  if (error) return { data: null, error: toError(error) };
+  return { data, error: null };
 }

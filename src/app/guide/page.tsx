@@ -1,7 +1,7 @@
 'use client';
 
 import { useApp } from '@/lib/context';
-import { guideSections } from '@/data/events';
+import { guideSections } from '@/lib/guide-data';
 import { useState } from 'react';
 import { ChevronDown, ChevronUp, BookOpen, CheckCircle2 } from 'lucide-react';
 

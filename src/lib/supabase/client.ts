@@ -1,5 +1,4 @@
-﻿import { createBrowserClient, createServerClient, type CookieOptions } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+﻿import { createBrowserClient } from '@supabase/ssr';
 
 export function createBrowserSupabaseClient() {
   return createBrowserClient(
@@ -8,28 +7,32 @@ export function createBrowserSupabaseClient() {
   );
 }
 
-export function createServerSupabaseClient() {
-  const cookieStore = cookies();
+let serverClient: ReturnType<typeof createBrowserClient> | null = null;
 
+export function createServerSupabaseClient() {
+  if (typeof window !== 'undefined') {
+    return createBrowserSupabaseClient();
+  }
+  const { createServerClient } = require('@supabase/ssr');
+  const { cookies } = require('next/headers');
+  
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         get(name: string) {
-          return cookieStore.get(name)?.value;
+          return cookies().get(name)?.value;
         },
-        set(name: string, value: string, options: CookieOptions) {
+        set(name: string, value: string, options: any) {
           try {
-            cookieStore.set(name, value, options);
-          } catch {
-          }
+            cookies().set(name, value, options);
+          } catch {}
         },
-        remove(name: string, options: CookieOptions) {
+        remove(name: string, options: any) {
           try {
-            cookieStore.set(name, '', { ...options, maxAge: 0 });
-          } catch {
-          }
+            cookies().set(name, '', { ...options, maxAge: 0 });
+          } catch {}
         },
       },
     }

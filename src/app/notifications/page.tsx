@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useApp } from '@/lib/context';
-import { notifications as initialNotifications } from '@/data/notifications';
+import { useNotifications } from '@/hooks/supabase/useNotifications';
 import {
   Bell, Heart, MessageCircle, UserPlus, Briefcase, Calendar,
   Users, Check, CheckCheck, Trash2, Settings
@@ -34,23 +34,12 @@ const notifColors: Record<string, string> = {
 export default function NotificationsPage() {
   const { t, lang } = useApp();
   const locale = lang === 'fr' ? fr : enUS;
-  const [notifs, setNotifs] = useState(initialNotifications);
   const [filter, setFilter] = useState<string>('all');
+  const { data: notifs, loading, error } = useNotifications(filter === 'unread' ? 'unread' : undefined);
 
-  const filtered = filter === 'all' ? notifs : notifs.filter(n => n.read === (filter === 'read'));
-  const unreadCount = notifs.filter(n => !n.read).length;
+  if (loading) return <div className="page-container max-w-2xl mx-auto"><div className="text-center py-12">Chargement...</div></div>;
 
-  const markAsRead = (id: string) => {
-    setNotifs(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
-  };
-
-  const markAllAsRead = () => {
-    setNotifs(prev => prev.map(n => ({ ...n, read: true })));
-  };
-
-  const deleteNotif = (id: string) => {
-    setNotifs(prev => prev.filter(n => n.id !== id));
-  };
+  const unreadCount = (notifs || []).filter((n: any) => !n.read).length;
 
   return (
     <div className="page-container max-w-2xl mx-auto">
@@ -64,99 +53,34 @@ export default function NotificationsPage() {
             <p className="text-gray-400 mt-1">{unreadCount} non lues</p>
           )}
         </div>
-        {unreadCount > 0 && (
-          <button
-            onClick={markAllAsRead}
-            className="flex items-center gap-2 px-4 py-2 text-sm text-togo-green hover:bg-togo-green/10 rounded-xl transition-colors"
-          >
-            <CheckCheck size={16} />
-            {t('notifications.markAll')}
-          </button>
-        )}
       </div>
 
-      {/* Filter Tabs */}
       <div className="flex gap-2 mb-6">
-        {[
-          { key: 'all', label: lang === 'fr' ? 'Toutes' : 'All' },
-          { key: 'unread', label: lang === 'fr' ? 'Non lues' : 'Unread' },
-          { key: 'read', label: lang === 'fr' ? 'Lues' : 'Read' },
-        ].map(({ key, label }) => (
-          <button
-            key={key}
-            onClick={() => setFilter(key)}
-            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-              filter === key ? 'bg-togo-green/20 text-togo-green' : 'text-gray-400 hover:bg-white/5'
-            }`}
-          >
-            {label}
-            {key === 'unread' && unreadCount > 0 && (
-              <span className="ml-1.5 w-5 h-5 inline-flex items-center justify-center bg-togo-red text-white text-xs rounded-full">
-                {unreadCount}
-              </span>
-            )}
+        {['all', 'unread'].map((f) => (
+          <button key={f} onClick={() => setFilter(f)} className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${filter === f ? 'bg-togo-green/15 text-togo-green border border-togo-green/20' : 'text-gray-400 hover:bg-white/[0.04] border border-transparent'}`}>
+            {f === 'all' ? t('notifications.all') : t('notifications.unread')}
           </button>
         ))}
       </div>
 
-      {/* Notifications List */}
-      <div className="space-y-2">
-        {filtered.length === 0 ? (
-          <div className="glass-card p-12 text-center">
-            <Bell size={48} className="mx-auto text-gray-600 mb-4" />
-            <p className="text-gray-400">{t('notifications.empty')}</p>
-          </div>
-        ) : (
-          filtered.map((notif) => {
-            const Icon = notifIcons[notif.type] || Bell;
-            const color = notifColors[notif.type] || 'text-gray-400 bg-gray-400/10';
-
-            return (
-              <div
-                key={notif.id}
-                className={`glass-card-hover p-4 flex items-start gap-3 group ${
-                  !notif.read ? 'border-l-2 border-togo-green bg-togo-green/5' : ''
-                }`}
-              >
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${color}`}>
-                  <Icon size={18} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <Link
-                    href={notif.link}
-                    onClick={() => markAsRead(notif.id)}
-                    className="block"
-                  >
-                    <p className={`text-sm ${!notif.read ? 'text-white font-medium' : 'text-gray-300'}`}>
-                      {notif.content}
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      {formatDistanceToNow(new Date(notif.createdAt), { addSuffix: true, locale })}
-                    </p>
-                  </Link>
-                </div>
-                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  {!notif.read && (
-                    <button
-                      onClick={() => markAsRead(notif.id)}
-                      className="p-1.5 text-gray-400 hover:text-togo-green hover:bg-white/5 rounded-lg transition-colors"
-                      title="Marquer comme lu"
-                    >
-                      <Check size={14} />
-                    </button>
-                  )}
-                  <button
-                    onClick={() => deleteNotif(notif.id)}
-                    className="p-1.5 text-gray-400 hover:text-togo-red hover:bg-white/5 rounded-lg transition-colors"
-                    title="Supprimer"
-                  >
-                    <Trash2 size={14} />
-                  </button>
+      <div className="space-y-3">
+        {(notifs || []).map((notif: any) => {
+          const Icon = notifIcons[notif.type] || Bell;
+          const colors = notifColors[notif.type] || 'text-gray-400 bg-gray-400/10';
+          return (
+            <div key={notif.id} className={`glass-card-hover p-4 flex gap-3 ${!notif.read ? 'border-l-2 border-togo-green' : ''}`}>
+              <div className={`w-10 h-10 rounded-xl ${colors} flex items-center justify-center flex-shrink-0`}>
+                <Icon size={18} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm text-gray-200">{notif.content}</p>
+                <div className="text-xs text-gray-500 mt-1">
+                  {formatDistanceToNow(new Date(notif.createdAt), { addSuffix: true, locale })}
                 </div>
               </div>
-            );
-          })
-        )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

@@ -1,8 +1,19 @@
 {
-  "/mentorship/page": "app/mentorship/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/forum/[id]/page": "app/forum/[id]/page.js",
   "/events/page": "app/events/page.js",
-  "/guide/page": "app/guide/page.js",
+  "/forum/page": "app/forum/page.js",
+  "/map/page": "app/map/page.js",
   "/messages/page": "app/messages/page.js",
-  "/profile/edit/page": "app/profile/edit/page.js",
-  "/page": "app/page.js"
+  "/auth/login/page": "app/auth/login/page.js",
+  "/auth/register/page": "app/auth/register/page.js",
+  "/guide/page": "app/guide/page.js",
+  "/feed/page": "app/feed/page.js",
+  "/notifications/page": "app/notifications/page.js",
+  "/opportunities/page": "app/opportunities/page.js",
+  "/search/page": "app/search/page.js",
+  "/mentorship/page": "app/mentorship/page.js",
+  "/page": "app/page.js",
+  "/profile/[id]/page": "app/profile/[id]/page.js",
+  "/profile/edit/page": "app/profile/edit/page.js"
 }

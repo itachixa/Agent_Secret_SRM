@@ -1,4 +1,4 @@
-import { api } from '../../api/client';
+import { createServerSupabaseClient } from '../client';
 
 type ApiResult<T> = { data: T | null; error: Error | null };
 
@@ -6,92 +6,70 @@ function toError(error: unknown) {
   return error instanceof Error ? error : new Error(String(error));
 }
 
-function qs(params: Record<string, string | number | boolean | undefined>) {
-  const query = new URLSearchParams();
-  Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined) query.set(key, String(value));
-  });
-  return query.toString();
+export async function getProfiles(filters?: { query?: string; limit?: number }) {
+  const supabase = createServerSupabaseClient();
+  let query = supabase.from('profiles').select('*');
+  if (filters?.query) query = query.ilike('full_name', `%${filters.query}%`);
+  if (filters?.limit) query = query.limit(filters.limit);
+  const { data, error } = await query.order('created_at', { ascending: false });
+  if (error) return { data: [], error: toError(error) };
+  return { data, error: null };
 }
 
-export async function getProfiles(filters?: { query?: string; limit?: number }): Promise<ApiResult<any[]>> {
-  try {
-    const query = qs({ q: filters?.query, limit: filters?.limit ?? 20 });
-    const data = await api.get<any[]>(`/api/profiles${query ? `?${query}` : ''}`);
-    return { data, error: null };
-  } catch (error) {
-    return { data: [], error: toError(error) };
-  }
+export async function getProfile(profileId: string) {
+  const supabase = createServerSupabaseClient();
+  const { data, error } = await supabase.from('profiles').select('*').eq('id', profileId).single();
+  if (error) return { data: null, error: toError(error) };
+  return { data, error: null };
 }
 
-export async function getProfile(profileId: string): Promise<ApiResult<any>> {
-  try {
-    const data = await api.get<any>(`/api/profiles/${profileId}`);
-    return { data, error: null };
-  } catch (error) {
-    return { data: null, error: toError(error) };
-  }
+export async function updateProfile(profileId: string, input: Record<string, unknown>) {
+  const supabase = createServerSupabaseClient();
+  const { data, error } = await supabase.from('profiles').update(input).eq('id', profileId).select().single();
+  if (error) return { data: null, error: toError(error) };
+  return { data, error: null };
 }
 
-export async function updateProfile(profileId: string, input: Record<string, unknown>, userId?: string): Promise<ApiResult<any>> {
-  try {
-    const data = await api.put<any>(`/api/profiles/${profileId}`, input, { userId });
-    return { data, error: null };
-  } catch (error) {
-    return { data: null, error: toError(error) };
-  }
+export async function getProfileSkills(profileId: string) {
+  const supabase = createServerSupabaseClient();
+  const { data, error } = await supabase.from('profile_skills').select('skill').eq('profile_id', profileId);
+  if (error) return { data: [], error: toError(error) };
+  return { data: data?.map((s: any) => s.skill) || [], error: null };
 }
 
-export async function getProfileSkills(profileId: string): Promise<ApiResult<any[]>> {
-  try {
-    const data = await api.get<any[]>(`/api/profiles/${profileId}/skills`);
-    return { data, error: null };
-  } catch (error) {
-    return { data: [], error: toError(error) };
-  }
+export async function replaceProfileSkills(profileId: string, skills: string[]) {
+  const supabase = createServerSupabaseClient();
+  await supabase.from('profile_skills').delete().eq('profile_id', profileId);
+  if (skills.length === 0) return { data: [], error: null };
+  const { data, error } = await supabase.from('profile_skills').insert(skills.map((skill) => ({ profile_id: profileId, skill }))).select();
+  if (error) return { data: [], error: toError(error) };
+  return { data, error: null };
 }
 
-export async function replaceProfileSkills(profileId: string, skills: string[], userId?: string): Promise<ApiResult<any[]>> {
-  try {
-    const data = await api.put<any[]>(`/api/profiles/${profileId}/skills`, skills, { userId });
-    return { data, error: null };
-  } catch (error) {
-    return { data: [], error: toError(error) };
-  }
+export async function getSocialLinks(profileId: string) {
+  const supabase = createServerSupabaseClient();
+  const { data, error } = await supabase.from('social_links').select('*').eq('profile_id', profileId).single();
+  if (error) return { data: null, error: toError(error) };
+  return { data, error: null };
 }
 
-export async function getSocialLinks(profileId: string): Promise<ApiResult<any>> {
-  try {
-    const data = await api.get<any>(`/api/profiles/${profileId}/social-links`);
-    return { data, error: null };
-  } catch (error) {
-    return { data: null, error: toError(error) };
-  }
+export async function upsertSocialLinks(profileId: string, input: Record<string, unknown>) {
+  const supabase = createServerSupabaseClient();
+  const { data, error } = await supabase.from('social_links').upsert({ profile_id: profileId, ...input }).select().single();
+  if (error) return { data: null, error: toError(error) };
+  return { data, error: null };
 }
 
-export async function upsertSocialLinks(profileId: string, input: Record<string, unknown>, userId?: string): Promise<ApiResult<any>> {
-  try {
-    const data = await api.put<any>(`/api/profiles/${profileId}/social-links`, input, { userId });
-    return { data, error: null };
-  } catch (error) {
-    return { data: null, error: toError(error) };
-  }
+export async function followUser(targetUserId: string, userId?: string) {
+  const supabase = createServerSupabaseClient();
+  const { data, error } = await supabase.from('follows').insert({ follower_id: userId, following_id: targetUserId }).select().single();
+  if (error) return { data: null, error: toError(error) };
+  return { data, error: null };
 }
 
-export async function followUser(targetUserId: string, userId?: string): Promise<ApiResult<any>> {
-  try {
-    const data = await api.post<any>(`/api/profiles/${targetUserId}/follow`, undefined, { userId });
-    return { data, error: null };
-  } catch (error) {
-    return { data: null, error: toError(error) };
-  }
-}
-
-export async function unfollowUser(targetUserId: string, userId?: string): Promise<ApiResult<any>> {
-  try {
-    const data = await api.delete<any>(`/api/profiles/${targetUserId}/follow`, { userId });
-    return { data, error: null };
-  } catch (error) {
-    return { data: null, error: toError(error) };
-  }
+export async function unfollowUser(targetUserId: string, userId?: string) {
+  const supabase = createServerSupabaseClient();
+  const { data, error } = await supabase.from('follows').delete().eq('follower_id', userId).eq('following_id', targetUserId);
+  if (error) return { data: null, error: toError(error) };
+  return { data, error: null };
 }

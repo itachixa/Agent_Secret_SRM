@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { Lang, translations } from '@/lib/i18n';
-import { currentUser as defaultUser } from '@/data/users';
 
 interface AppContextType {
   lang: Lang;
@@ -20,6 +19,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLang] = useState<Lang>('fr');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const currentUser = { id: '1', name: 'User', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=current' };
 
   useEffect(() => {
     const savedLang = typeof window !== 'undefined' ? localStorage.getItem('togoindia-lang') as Lang : null;
@@ -51,7 +51,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         t,
         sidebarOpen,
         setSidebarOpen,
-        currentUser: defaultUser,
+        currentUser: currentUser,
         isLoaded,
       }}
     >

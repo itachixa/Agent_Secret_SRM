@@ -1,4 +1,4 @@
-import { api } from '../../api/client';
+import { createServerSupabaseClient } from '../client';
 
 type ApiResult<T> = { data: T | null; error: Error | null };
 
@@ -6,34 +6,36 @@ function toError(error: unknown) {
   return error instanceof Error ? error : new Error(String(error));
 }
 
-export async function getEvents(): Promise<ApiResult<any[]>> {
-  try {
-    const data = await api.get<any[]>('/api/events');
-    return { data, error: null };
-  } catch (error) {
-    return { data: [], error: toError(error) };
-  }
+export async function getEvents() {
+  const supabase = createServerSupabaseClient();
+  const { data, error } = await supabase.from('events').select('*').order('date', { ascending: true });
+  if (error) return { data: [], error: toError(error) };
+  return { data, error: null };
 }
 
-export async function createEvent(input: Record<string, unknown>, userId?: string): Promise<ApiResult<any>> {
-  try {
-    const data = await api.post<any>('/api/events', input, { userId });
-    return { data, error: null };
-  } catch (error) {
-    return { data: null, error: toError(error) };
-  }
+export async function getEvent(id: string) {
+  const supabase = createServerSupabaseClient();
+  const { data, error } = await supabase.from('events').select('*').eq('id', id).single();
+  if (error) return { data: null, error: toError(error) };
+  return { data, error: null };
 }
 
-export async function toggleEventAttendance(eventId: string, attending: boolean, statusValue: string = 'going', userId?: string): Promise<ApiResult<any>> {
-  try {
-    if (attending) {
-      const data = await api.post<any>(`/api/events/${eventId}/attend?status_value=${statusValue}`, undefined, { userId });
-      return { data, error: null };
-    } else {
-      const data = await api.delete<any>(`/api/events/${eventId}/attend`, { userId });
-      return { data, error: null };
-    }
-  } catch (error) {
-    return { data: null, error: toError(error) };
+export async function createEvent(input: Record<string, unknown>) {
+  const supabase = createServerSupabaseClient();
+  const { data, error } = await supabase.from('events').insert(input).select().single();
+  if (error) return { data: null, error: toError(error) };
+  return { data, error: null };
+}
+
+export async function toggleEventAttendance(eventId: string, userId: string, statusValue: string = 'going') {
+  const supabase = createServerSupabaseClient();
+  const { data: existing } = await supabase.from('event_attendees').select('id').eq('event_id', eventId).eq('user_id', userId).single();
+  if (existing) {
+    const { data, error } = await supabase.from('event_attendees').delete().eq('event_id', eventId).eq('user_id', userId);
+    if (error) return { data: null, error: toError(error) };
+  } else {
+    const { data, error } = await supabase.from('event_attendees').insert({ event_id: eventId, user_id: userId, status: statusValue }).select().single();
+    if (error) return { data: null, error: toError(error) };
   }
+  return { data: null, error: null };
 }

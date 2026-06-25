@@ -26,7 +26,7 @@ export function useFeed(type: PostType | 'all' = 'all', userId?: string) {
   }, [type]);
 
   const create = async (input: { content: string; type: PostType; tags?: string[]; images?: string[] }) => {
-    const result = await createPost(input, userId);
+    const result = await createPost(input);
     if (result.error) return result;
     await reload();
     return result;

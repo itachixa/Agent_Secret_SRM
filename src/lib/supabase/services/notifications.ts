@@ -1,4 +1,4 @@
-import { api } from '../../api/client';
+import { createServerSupabaseClient } from '../client';
 
 type ApiResult<T> = { data: T | null; error: Error | null };
 
@@ -6,38 +6,32 @@ function toError(error: unknown) {
   return error instanceof Error ? error : new Error(String(error));
 }
 
-export async function getNotifications(filter?: string, userId?: string): Promise<ApiResult<any[]>> {
-  try {
-    const data = await api.get<any[]>('/api/notifications', { userId });
-    return { data, error: null };
-  } catch (error) {
-    return { data: [], error: toError(error) };
-  }
+export async function getNotifications(filter?: string, userId?: string) {
+  const supabase = createServerSupabaseClient();
+  let query = supabase.from('notifications').select('*').eq('user_id', userId);
+  if (filter === 'unread') query = query.eq('read', false);
+  const { data, error } = await query.order('created_at', { ascending: false });
+  if (error) return { data: [], error: toError(error) };
+  return { data, error: null };
 }
 
-export async function markNotificationRead(notificationId: string, userId?: string): Promise<ApiResult<any>> {
-  try {
-    const data = await api.put<any>(`/api/notifications/${notificationId}/read`, undefined, { userId });
-    return { data, error: null };
-  } catch (error) {
-    return { data: null, error: toError(error) };
-  }
+export async function markNotificationRead(notificationId: string, userId?: string) {
+  const supabase = createServerSupabaseClient();
+  const { data, error } = await supabase.from('notifications').update({ read: true }).eq('id', notificationId).eq('user_id', userId).select().single();
+  if (error) return { data: null, error: toError(error) };
+  return { data, error: null };
 }
 
-export async function markAllNotificationsRead(userId?: string): Promise<ApiResult<any>> {
-  try {
-    const data = await api.put<any>('/api/notifications/read-all', undefined, { userId });
-    return { data, error: null };
-  } catch (error) {
-    return { data: null, error: toError(error) };
-  }
+export async function markAllNotificationsRead(userId?: string) {
+  const supabase = createServerSupabaseClient();
+  const { data, error } = await supabase.from('notifications').update({ read: true }).eq('user_id', userId).eq('read', false).select();
+  if (error) return { data: null, error: toError(error) };
+  return { data, error: null };
 }
 
-export async function deleteNotification(notificationId: string, userId?: string): Promise<ApiResult<any>> {
-  try {
-    const data = await api.delete<any>(`/api/notifications/${notificationId}`, { userId });
-    return { data, error: null };
-  } catch (error) {
-    return { data: null, error: toError(error) };
-  }
+export async function deleteNotification(notificationId: string, userId?: string) {
+  const supabase = createServerSupabaseClient();
+  const { data, error } = await supabase.from('notifications').delete().eq('id', notificationId).eq('user_id', userId);
+  if (error) return { data: null, error: toError(error) };
+  return { data, error: null };
 }

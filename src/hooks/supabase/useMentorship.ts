@@ -2,10 +2,18 @@
 
 import { useEffect, useState } from 'react';
 import { getAvailableMentors, getMentorships, requestMentorship } from '../../lib/supabase/services/mentorship';
-import type { MentorshipPublic, UserProfile } from '../../lib/supabase/types';
+import type { MentorshipPublic } from '../../lib/supabase/types';
+
+type MentorProfile = {
+  id: string;
+  full_name?: string;
+  avatar_url?: string;
+  field?: string;
+  badge?: string;
+};
 
 export function useMentorship(userId?: string) {
-  const [mentors, setMentors] = useState<UserProfile[]>([]);
+  const [mentors, setMentors] = useState<MentorProfile[]>([]);
   const [mentorships, setMentorships] = useState<MentorshipPublic[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

@@ -1,15 +1,14 @@
 'use client';
 
 import { useApp } from '@/lib/context';
-import { opportunities } from '@/data/opportunities';
-import { users } from '@/data/users';
+import { useOpportunities } from '@/hooks/supabase/useOpportunities';
 import {
   Briefcase, GraduationCap, MapPin, Calendar,
   ExternalLink, Clock, DollarSign, Zap
 } from 'lucide-react';
 import { formatDistanceToNow, format } from 'date-fns';
 import { fr, enUS } from 'date-fns/locale';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const typeIcons: Record<string, any> = {
   internship: Briefcase,
@@ -25,10 +24,15 @@ const typeColors: Record<string, string> = {
   event: 'bg-purple-500/15 text-purple-400 border border-purple-500/20',
 };
 
+const mockUsers = [
+  { id: '1', name: 'Admin', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=admin' },
+];
+
 export default function OpportunitiesPage() {
   const { t, lang } = useApp();
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const locale = lang === 'fr' ? fr : enUS;
+  const { data: opportunities, loading, error } = useOpportunities(activeFilter as any, 'all');
 
   const filters = [
     { key: 'all', label: t('search.all') },
@@ -37,9 +41,7 @@ export default function OpportunitiesPage() {
     { key: 'scholarship', label: t('opportunities.scholarship') },
   ];
 
-  const filtered = activeFilter === 'all'
-    ? opportunities
-    : opportunities.filter((o) => o.type === activeFilter);
+  const filtered = opportunities || [];
 
   return (
     <div className="page-container max-w-4xl mx-auto">
@@ -69,7 +71,7 @@ export default function OpportunitiesPage() {
       <div className="space-y-4">
         {filtered.map((opp, i) => {
           const TypeIcon = typeIcons[opp.type] || Briefcase;
-          const poster = users.find((u) => u.id === opp.postedBy);
+          const poster = mockUsers.find((u) => u.id === opp.postedBy);
 
           return (
             <div key={opp.id} className="glass-card-hover p-6 animate-slide-up" style={{ animationDelay: `${i * 0.05}s` }}>
@@ -97,7 +99,7 @@ export default function OpportunitiesPage() {
 
                   <div className="flex items-center gap-5 mt-4 text-xs text-gray-500 flex-wrap">
                     <span className="flex items-center gap-1.5"><MapPin size={13} /> {opp.location}</span>
-                    <span className="flex items-center gap-1.5"><Calendar size={13} /> {t('opportunities.deadline')}: {format(new Date(opp.deadline), 'dd MMM yyyy', { locale })}</span>
+                    {opp.deadline && <span className="flex items-center gap-1.5"><Calendar size={13} /> {t('opportunities.deadline')}: {format(new Date(opp.deadline), 'dd MMM yyyy', { locale })}</span>}
                     <span className="flex items-center gap-1.5">
                       <Clock size={13} />
                       {formatDistanceToNow(new Date(opp.createdAt), { addSuffix: true, locale })}
@@ -108,12 +110,6 @@ export default function OpportunitiesPage() {
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${typeColors[opp.type]}`}>
                       {t(`opportunities.${opp.type}`)}
                     </span>
-                    {poster && (
-                      <span className="text-xs text-gray-500 flex items-center gap-1.5 ml-auto">
-                        <img src={poster.avatar} alt="" className="w-5 h-5 rounded-full ring-1 ring-white/10" />
-                        {poster.name}
-                      </span>
-                    )}
                   </div>
                 </div>
               </div>

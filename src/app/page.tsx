@@ -3,7 +3,11 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useApp } from '@/lib/context';
-import { users } from '@/data/users';
+const mockUsers = [
+  { id: '1', name: 'Kofi Mensah', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Kofi', isOnline: true, field: 'Computer Science', city: 'Chennai', badge: 'active' },
+  { id: '2', name: 'Ama Diallo', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Ama', isOnline: false, field: 'Medicine', city: 'Delhi', badge: 'mentor' },
+  { id: '3', name: 'Yaw Boateng', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Yaw', isOnline: true, field: 'MBA', city: 'Bangalore', badge: 'alumni' },
+];
 import {
   Users, Globe, Building2, GraduationCap, MapPin, MessageSquare,
   Briefcase, Calendar, BookOpen, ArrowRight, Star, Sparkles,
@@ -82,7 +86,7 @@ export default function HomePage() {
     return () => clearInterval(timer);
   }, []);
 
-  const featuredStudents = users.slice(0, 6);
+  const featuredStudents = mockUsers.slice(0, 6);
 
   return (
     <div className="animate-fade-in">
