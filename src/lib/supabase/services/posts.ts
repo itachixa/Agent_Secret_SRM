@@ -1,4 +1,4 @@
-import { createServerSupabaseClient } from '../client';
+import { createBrowserSupabaseClient } from '../client';
 
 type ApiResult<T> = { data: T | null; error: Error | null };
 
@@ -7,7 +7,7 @@ function toError(error: unknown) {
 }
 
 export async function getPosts(type?: string) {
-  const supabase = createServerSupabaseClient();
+  const supabase = createBrowserSupabaseClient();
   let query = supabase.from('posts').select('*, author:profiles!author_id(full_name, avatar_url)');
   if (type && type !== 'all') query = query.eq('type', type);
   const { data, error } = await query.order('created_at', { ascending: false });
@@ -16,21 +16,21 @@ export async function getPosts(type?: string) {
 }
 
 export async function createPost(input: Record<string, unknown>) {
-  const supabase = createServerSupabaseClient();
+  const supabase = createBrowserSupabaseClient();
   const { data, error } = await supabase.from('posts').insert(input).select().single();
   if (error) return { data: null, error: toError(error) };
   return { data, error: null };
 }
 
 export async function createPostComment(postId: string, content: string, userId?: string) {
-  const supabase = createServerSupabaseClient();
+  const supabase = createBrowserSupabaseClient();
   const { data, error } = await supabase.from('post_comments').insert({ post_id: postId, author_id: userId, content }).select().single();
   if (error) return { data: null, error: toError(error) };
   return { data, error: null };
 }
 
 export async function toggleLikePost(postId: string, liked: boolean, userId?: string) {
-  const supabase = createServerSupabaseClient();
+  const supabase = createBrowserSupabaseClient();
   if (liked) {
     const { data, error } = await supabase.from('post_likes').insert({ post_id: postId, user_id: userId }).select().single();
     if (error) return { data: null, error: toError(error) };
@@ -42,7 +42,7 @@ export async function toggleLikePost(postId: string, liked: boolean, userId?: st
 }
 
 export async function toggleBookmarkPost(postId: string, bookmarked: boolean, userId?: string) {
-  const supabase = createServerSupabaseClient();
+  const supabase = createBrowserSupabaseClient();
   if (bookmarked) {
     const { data, error } = await supabase.from('bookmarks').insert({ post_id: postId, user_id: userId }).select().single();
     if (error) return { data: null, error: toError(error) };

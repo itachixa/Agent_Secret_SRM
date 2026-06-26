@@ -1,4 +1,4 @@
-import { createServerSupabaseClient } from '../client';
+import { createBrowserSupabaseClient } from '../client';
 
 type ApiResult<T> = { data: T | null; error: Error | null };
 
@@ -7,7 +7,7 @@ function toError(error: unknown) {
 }
 
 export async function getOpportunities(type?: string, status?: string) {
-  const supabase = createServerSupabaseClient();
+  const supabase = createBrowserSupabaseClient();
   let query = supabase.from('opportunities').select('*');
   if (type && type !== 'all') query = query.eq('type', type);
   if (status && status !== 'all') query = query.eq('status', status);
@@ -17,14 +17,14 @@ export async function getOpportunities(type?: string, status?: string) {
 }
 
 export async function getOpportunity(id: string) {
-  const supabase = createServerSupabaseClient();
+  const supabase = createBrowserSupabaseClient();
   const { data, error } = await supabase.from('opportunities').select('*').eq('id', id).single();
   if (error) return { data: null, error: toError(error) };
   return { data, error: null };
 }
 
 export async function createOpportunity(input: Record<string, unknown>) {
-  const supabase = createServerSupabaseClient();
+  const supabase = createBrowserSupabaseClient();
   const { data, error } = await supabase.from('opportunities').insert(input).select().single();
   if (error) return { data: null, error: toError(error) };
   return { data, error: null };

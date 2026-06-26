@@ -1,4 +1,4 @@
-import { createServerSupabaseClient } from '../client';
+import { createBrowserSupabaseClient } from '../client';
 
 type ApiResult<T> = { data: T | null; error: Error | null };
 
@@ -7,7 +7,7 @@ function toError(error: unknown) {
 }
 
 export async function getForumQuestions() {
-  const supabase = createServerSupabaseClient();
+  const supabase = createBrowserSupabaseClient();
   const { data, error } = await supabase
     .from('forum_questions')
     .select('*, author:profiles!author_id(full_name, avatar_url)')
@@ -17,7 +17,7 @@ export async function getForumQuestions() {
 }
 
 export async function getForumQuestion(id: string) {
-  const supabase = createServerSupabaseClient();
+  const supabase = createBrowserSupabaseClient();
   const { data, error } = await supabase
     .from('forum_questions')
     .select('*, author:profiles!author_id(full_name, avatar_url), answers:forum_answers(*, author:profiles!author_id(full_name, avatar_url))')
@@ -28,28 +28,28 @@ export async function getForumQuestion(id: string) {
 }
 
 export async function createForumQuestion(input: Record<string, unknown>) {
-  const supabase = createServerSupabaseClient();
+  const supabase = createBrowserSupabaseClient();
   const { data, error } = await supabase.from('forum_questions').insert(input).select().single();
   if (error) return { data: null, error: toError(error) };
   return { data, error: null };
 }
 
 export async function createForumAnswer(questionId: string, content: string, userId?: string) {
-  const supabase = createServerSupabaseClient();
+  const supabase = createBrowserSupabaseClient();
   const { data, error } = await supabase.from('forum_answers').insert({ question_id: questionId, author_id: userId, content }).select().single();
   if (error) return { data: null, error: toError(error) };
   return { data, error: null };
 }
 
 export async function voteForumQuestion(questionId: string, value: -1 | 1, userId?: string) {
-  const supabase = createServerSupabaseClient();
+  const supabase = createBrowserSupabaseClient();
   const { data, error } = await supabase.from('forum_votes').upsert({ question_id: questionId, user_id: userId, value }).select().single();
   if (error) return { data: null, error: toError(error) };
   return { data, error: null };
 }
 
 export async function voteForumAnswer(answerId: string, value: -1 | 1, userId?: string) {
-  const supabase = createServerSupabaseClient();
+  const supabase = createBrowserSupabaseClient();
   const { data, error } = await supabase.from('forum_votes').upsert({ answer_id: answerId, user_id: userId, value }).select().single();
   if (error) return { data: null, error: toError(error) };
   return { data, error: null };

@@ -1,4 +1,4 @@
-import { createServerSupabaseClient } from '../client';
+import { createBrowserSupabaseClient } from '../client';
 
 type ApiResult<T> = { data: T | null; error: Error | null };
 
@@ -7,10 +7,10 @@ function toError(error: unknown) {
 }
 
 export async function getCommittee() {
-  const supabase = createServerSupabaseClient();
+  const supabase = createBrowserSupabaseClient();
   const { data, error } = await supabase
     .from('committee_members')
-    .select(`*, position:committee_positions(title, title_en, description), profile:profiles!profile_id(full_name, avatar_url, city, field, badge)`)
+    .select('*, position:committee_positions(title, title_en, description), profile:profiles!profile_id(full_name, avatar_url, city, field, badge)')
     .eq('is_current', true)
     .order('sort_order', { ascending: true });
   if (error) return { data: [], error: toError(error) };
