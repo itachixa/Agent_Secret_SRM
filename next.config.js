@@ -4,15 +4,12 @@ const nextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'api.dicebear.com' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
-      { protocol: 'https', hostname: 'wtvnrjrbegnuubstikaj.supabase.co' },
+      { protocol: 'https', hostname: 'hwietbwivhzrizqexdva.supabase.co' },
     ],
     unoptimized: true,
   },
   typescript: { ignoreBuildErrors: false },
   eslint: { ignoreDuringBuilds: true },
-  env: {
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || 'https://your-app.vercel.app',
-  },
 };
 
 module.exports = nextConfig;
